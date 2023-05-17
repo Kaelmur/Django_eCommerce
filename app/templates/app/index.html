@@ -1,0 +1,67 @@
+{% extends 'app/base.html' %}
+{% block title %}Game Shop{% endblock %}
+{% block content %}
+<div class="g" style="background-color: #FFFFE8;">
+<div class="container px-4 px-lg-5">
+    <div class="gg">
+        <h1>We sell games!</h1>
+        <p>PS4, PS5, PC, Nintendo etc.</p>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" style="text-align: center">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+</div>
+<section>
+<div class="container px-4 px-lg-5 back">
+    <div class="container px-4 px-lg-5">
+        {% for game in games %}
+<div class="card" style="width: 18rem; margin-top: 20px; display: inline-block; margin-left: 60px; text-align: center; margin-bottom: 10px;border-color: grey; background-color: #FFFFE8;" id="card">
+    <a href="{% url 'game-detail' game.id %}">
+  <img src="{{ game.image_url }}" class="card-img-top">
+    </a>
+  <div class="card-body">
+    <h5 class="card-title" style="text-align: center;">{{ game.title }}</h5>
+    <p class="card-text" style="text-align: center;">Price: {{ game.price }}$</p>
+    <a class="btn btn-success" href="{% url 'add_to_cart' game.id %}">Add to <i class="bi bi-cart4"></i></a>
+      {% if user.is_superuser %}
+      <a class="btn btn-dark" href="{% url 'game-update' game.id %}">Update</a>
+      <a class="btn btn-danger" href="{% url 'game-delete' game.id %}">Delete</a>
+      {% endif %}
+  </div>
+     </div>
+        {% endfor %}
+        {% if is_paginated %}
+        <div style="text-align: center; margin-top: 60px;">
+          {% if page_obj.has_previous %}
+            <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}"><</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">></a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+          {% endif %}
+        {% endif %}
+          </div>
+    </div>
+</div>
+</section>
+<nav class="navbar navbar-expand-lg" style="background-color: #FFFFE8;">
+	<div class="container px-4 px-lg-1 justify-content-center">
+		<a class="navbar-brand" href="https://github.com/Kaelmur"><i class="bi bi-github"></i></a>
+	</div>
+</nav>
+{% endblock %}

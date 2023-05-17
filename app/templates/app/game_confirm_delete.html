@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}
+{% block title %}Delete Game{% endblock %}
+{% block content %}
+<div class="g" style="background-color: #FFFFE8;">
+<div class="container px-4 px-lg-5">
+    <div class="gg">
+        <h1>Delete {{ object.title }}</h1>
+    </div>
+</div>
+</div>
+<section>
+<div class="container px-4 px-lg-5">
+    <div class="container px-4 px-lg-5">
+	    <form method="post" style="color: white; text-align: center; padding-top: 20px;">
+		    {% csrf_token %}
+            <h3>Are you sure you want to delete {{ object.title }}?</h3>
+		    <br>
+		    <button class="btn btn-outline-danger" type="submit">Confirm</button>
+		</form>
+    </div>
+</div>
+</section>
+<nav class="navbar navbar-expand-lg" style="background-color: #FFFFE8;">
+	<div class="container px-4 px-lg-1 justify-content-center">
+		<a class="navbar-brand" href="https://github.com/Kaelmur"><i class="bi bi-github"></i></a>
+	</div>
+</nav>
+{% endblock %}
